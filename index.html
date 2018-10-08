@@ -1,0 +1,96 @@
+<html>
+    <head>
+        <link href="https://fonts.googleapis.com/css?family=Mitr" rel="stylesheet">
+        <style>
+            body {
+                color: #ffffff;
+                font-family: 'Mitr', sans-serif;
+            }
+
+            #content {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            #content > p {
+                position: absolute;
+                font-size: 4vw;
+                margin-top: 8vw;
+                cursor: default;
+                opacity: 0;
+                animation: fadeIn 10s ease both; /* length = video length */
+                animation-iteration-count: infinite;
+            }
+
+            /* delay to offset from first row of text. */
+            #content p:nth-child(2) {
+                animation-delay: 1.8s;
+            }
+
+            /* Keyframe for animation  */
+
+            @keyframes fadeIn {
+                /* starting state: lower and invisible */
+                0%, 25%, 100% {
+                    opacity: 0;
+                    transform: translate3d(0, 50%, 0);
+                }
+                /* fade in state: middle and visible */
+                38% {
+                    opacity: 1;
+                    transform: translate3d(0, 0, 0);
+                } 
+                /* fade out state: upper and invisible */
+                45% {
+                    opacity: 0;
+                    transform: translate3d(0, -30%, 0);
+                }
+            }
+
+            .fullscreen-bg {
+                position: fixed;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                overflow: hidden;
+                z-index: -100;
+            }
+
+            .fullscreen-bg__video {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="content">
+        </div>
+        <div class="fullscreen-bg">
+            <video loop muted autoplay class="fullscreen-bg__video">
+                <source src="loop.webm" type="video/webm">
+            </video>
+        </div>
+        <script>
+                const urlParams = new URLSearchParams(window.location.search);
+                const line1 = urlParams.get('line1');
+                const line2 = urlParams.get('line2');
+                const messages = [];
+                if (line1) messages.push(line1);
+                if (line2) messages.push(line2);
+
+                messages.forEach(message => {
+                    const node = document.createElement('P');
+                    const textnode = document.createTextNode(message);
+                    node.appendChild(textnode);
+                    document.getElementById('content').appendChild(node);
+                });
+            </script>
+    </body>
+</html>
